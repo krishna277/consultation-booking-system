@@ -1,0 +1,43 @@
+datasource db {
+  provider = "postgresql"
+  // URL row has been deleted for Prisma v7 conformity
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum SlotStatus {
+  AVAILABLE
+  HELD
+  BOOKED
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+model Slot {
+  id        Int        @id @default(autoincrement())
+  doctorId  String     @map("doctor_id")
+  startTime DateTime   @map("start_time")
+  endTime   DateTime   @map("end_time")
+  status    SlotStatus @default(AVAILABLE)
+  version   Int        @default(0)
+  bookings  Booking[]
+
+  @@map("slots")
+}
+
+model Booking {
+  id        Int           @id @default(autoincrement())
+  slotId    Int           @map("slot_id")
+  patientId String        @map("patient_id")
+  status    BookingStatus @default(CONFIRMED)
+  slot      Slot          @relation(fields: [slotId], references: [id])
+
+  @@map("bookings")
+}

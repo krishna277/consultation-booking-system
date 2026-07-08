@@ -107,17 +107,9 @@ docker compose up -d
 Map out your table constraints directly to the live Docker environment instance:
 
 ```bash
-npx prisma db push
-npx prisma generate
+npm run db:setup
+npm run prisma:generate
 ```
-
-Note: if above command fails run below command:
-
-```bash
-npm install prisma@7.8.0 --save-dev
-```
-
-
 
 ### 4. Seed Testing Slots & Reset Identity Sequences
 
